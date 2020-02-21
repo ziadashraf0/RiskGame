@@ -1,104 +1,50 @@
 public class Main {
 
-    public static void main(String[] args) {
-        Main main = new Main();
-        int V = 28;
-        Graph.graph graph = new Graph.graph(V);
-        Graph.addEdge(graph,1,3);
-        Graph.addEdge(graph,1,2);
-        Graph.addEdge(graph,1,14);
-        Graph.addEdge(graph,2,3);
-        Graph.addEdge(graph,3,14);
-        Graph.addEdge(graph,3,10);
-        Graph.addEdge(graph,3,9);
-        Graph.addEdge(graph,3,4);
-        Graph.addEdge(graph,4,9);
-        Graph.addEdge(graph,4,5);
-        Graph.addEdge(graph,5,6);
-        Graph.addEdge(graph,5,9);
-        Graph.addEdge(graph,5,12);
-        Graph.addEdge(graph,5,11);
-        Graph.addEdge(graph,5,10);
-        Graph.addEdge(graph,7,8);
-        Graph.addEdge(graph,7,13);
-        Graph.addEdge(graph,8,13);
-        Graph.addEdge(graph,8,17);
-        Graph.addEdge(graph,8,18);
-        Graph.addEdge(graph,9,10);
-        Graph.addEdge(graph,10,11);
-        Graph.addEdge(graph,10,14);
-        Graph.addEdge(graph,11,12);
-        Graph.addEdge(graph,11,16);
-        Graph.addEdge(graph,11,14);
-        Graph.addEdge(graph,12,16);
-        Graph.addEdge(graph,12,13);
-        Graph.addEdge(graph,12,17);
-        Graph.addEdge(graph,13,17);
-        Graph.addEdge(graph,14,16);
-        Graph.addEdge(graph,14,15);
-        Graph.addEdge(graph,14,19);
-        Graph.addEdge(graph,14,20);
-        Graph.addEdge(graph,15,19);
-        Graph.addEdge(graph,16,17);
-        Graph.addEdge(graph,16,19);
-        Graph.addEdge(graph,16,23);
-        Graph.addEdge(graph,17,23);
-        Graph.addEdge(graph,17,18);
-        Graph.addEdge(graph,19,11);
-        Graph.addEdge(graph,19,20);
-        Graph.addEdge(graph,20,23);
-        Graph.addEdge(graph,20,21);
-        Graph.addEdge(graph,20,22);
-        Graph.addEdge(graph,21,1);
-        Graph.addEdge(graph,21,14);
-        Graph.addEdge(graph,21,22);
-        Graph.addEdge(graph,21,24);
-        Graph.addEdge(graph,21,25);
-        Graph.addEdge(graph,21,27);
-        Graph.addEdge(graph,22,23);
-        Graph.addEdge(graph,22,24);
-        Graph.addEdge(graph,23,19);
-        Graph.addEdge(graph,23,24);
-        Graph.addEdge(graph,23,25);
-        Graph.addEdge(graph,23,27);
-        Graph.addEdge(graph,24,25);
-        Graph.addEdge(graph,25,26);
-        Graph.addEdge(graph,25,27);
-
-        Graph.printGraph(graph);
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Graph graph=new Graph();
+		graph.initializeEgypt();	///////graph.initializeUSA();
+		int blue=0,red=0,sum=0;
+		graph.map= Game.randomizeColours(graph.map);
+		AgentHelper agentHelper = new AgentHelper();
 
 
+		for(int i =0;i<graph.map.size();i++) {
+			System.out.println(graph.map.get(i).color+"  "+graph.map.get(i).armies);
+			sum+=graph.map.get(i).armies;
+			if(graph.map.get(i).color==Colour.BLUE)
+				blue++;
+			else red++;
+		}
+		System.out.println(blue+"   "+red+"  "+sum);
 
-        ;
+		PassiveAgent passiveAgent=new PassiveAgent();
+		PacifistAgent pacifistAgent = new PacifistAgent();
+		pacifistAgent.initializeMap(graph.map,Colour.RED);
+		//passiveAgent.initializeMap(graph.map, Colour.RED);
+		pacifistAgent.initializeMap(graph.map,Colour.BLUE);
 
+		System.out.println("RED The graph Heurstic is : "+agentHelper.calculateHeuristic(graph.map,Colour.RED));
 
+		sum=0;
+		for(int i =0;i<graph.map.size();i++) {
+			System.out.println(graph.map.get(i).color +"  "+graph.map.get(i).armies);
 
+			sum+=graph.map.get(i).armies;
 
+		}System.out.println("end"+"           "+sum);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-    public void Egypt(Graph.graph graph,int V){
-         graph=new Graph.graph(V);
+			pacifistAgent.search(graph, Colour.RED);
+		pacifistAgent.attack(graph.map,Colour.RED);
 
 
-    }
+		//passiveAgent.search(graph.map, Colour.RED);
+		sum=0;
+		for(int i =0;i<graph.map.size();i++) {
+			sum+=graph.map.get(i).armies;
+			System.out.println(graph.map.get(i).color +"  "+graph.map.get(i).armies);
 
+		}
+		System.out.println("end"+"           "+sum);
+	}
 }
